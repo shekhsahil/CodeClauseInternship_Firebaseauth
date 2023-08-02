@@ -1,6 +1,4 @@
-button {
-  border-radius: 3784px;
-}
+
 button:focus {
   outline: none;
 }
@@ -20,7 +18,7 @@ button:focus {
 #login {
   background-color: yellow;
   color: black;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 2px black;
 }
 #login:hover {
@@ -46,7 +44,7 @@ center {
   font-size: x-large;
 }
 body {
-  font-family: cursive;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
