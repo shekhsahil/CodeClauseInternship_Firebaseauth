@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Bootstrap theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+  <link rel="icon" href=
+  "firebase_auth.png" 
+            type="image/x-icon">
+            <link rel="stylesheet" href="STYLE.CSS">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Firebase Authentication</title>
+</head>
+
+<body>
+
+  <div class="navbar navbar-default">
+    <div class="navbar-header">
+      <h1>Firebase Authentication</h1>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse"
+      
+        aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" id="logout" style="display: none;">Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+  <br>
+  <div class="container">
+    <form name="registration_form" id="registration_form" method="post" action="#" enctype="multipart/form-data">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" class="form-control" placeholder="Enter your email">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
+          </div>
+          <button type="button" id="register" name="register" class="btn btn-success">Register Now</button>
+          <hr>
+          <!-- <button type="button" id="google" name="google" class="btn btn-info">login with Google</button>
+          <br>
+          <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i class="fa fa-facebook "></i> Login with Facebook</button>
+          <br>
+          <button type="button" id="github" name="github" class="btn btn-dark">login with Github</button> -->
+        </div><!-- end col -->
+    </form>
+    <div class="col-sm-4">
+      <div class="img">
+        <img src="firebase_auth.png" style="width:300px; height:400px;">
+
+      </div>
+    </div>
+    <form name="login_form" id="login_form" method="post" action="#" enctype="multipart/form-data">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" name="login_email" id="login_email" class="form-control" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="login_password" id="login_password" class="form-control"
+            placeholder="Enter your password">
+        </div>
+        <button type="button" id="login" name="login" class="btn btn-success">Login</button>
+      </div><!-- end col -->
+      <hr>
+      <button type="button" id="google-login" name="google-login" class="btn btn-danger btn-lg btn-block"><i class="fa fa-google "></i> Login with Google</button>
+      <br>
+      <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i class="fa fa-facebook "></i> Login with Facebook</button>
+      <br>
+      <button type="button" id="github-login" name="github-login" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-github "></i> Login with Github</button>
+  </div><!--  end row -->
+  </form>
+  </div>
+  <br>
+  <footer> 
+
+  <center>Developed With ❣️ by S K SAHIL MANDAL</center>
+
+  </footer>
+</body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,FacebookAuthProvider,signInWithPopup } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDnI27lDGiDvVFaSQ7ie45-y0x5_LnTAV0",
+    authDomain: "fir-authentication-54d7b.firebaseapp.com",
+    projectId: "fir-authentication-54d7b",
+    storageBucket: "fir-authentication-54d7b.appspot.com",
+    messagingSenderId: "283880864418",
+    appId: "1:283880864418:web:867013bdb2e2e2d64b35fb",
+    measurementId: "G-PDMGPW6ZDT"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth=getAuth();
+  console.log(app);
+  ////////////////
+  const provider = new FacebookAuthProvider();
+	  console.log(provider);
+	  
+	  //----- facebook login code start	  
+	  document.getElementById("facebook-login").addEventListener("click", function() {
+		  signInWithPopup(auth, provider)
+		  .then((result) => {
+		    // The signed-in user info.
+		    const user = result.user;
+
+		    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+		    const credential = FacebookAuthProvider.credentialFromResult(result);
+		    const accessToken = credential.accessToken;
+		    
+		    alert("Welcome "+user.displayName);
+		    console.log(user);
+		    // ...
+		  })
+		  .catch((error) => {
+		    // Handle Errors here.
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    // The email of the user's account used.
+		    const email = error.customData.email;
+		    // The AuthCredential type that was used.
+		    const credential = FacebookAuthProvider.credentialFromError(error);
+
+		    // ...
+		  });		  		  
+	  });
+	  //----- End
+    ///////////////////
+ //----- New Registration code start	  
+ document.getElementById("register").addEventListener("click", function() {
+		  var email =  document.getElementById("email").value;
+		  var password = document.getElementById("password").value;
+		  //For new registration
+		  createUserWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert("Registration successfully!!");
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    // ..
+		    console.log(errorMessage);
+		    alert(error);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Login code start	  
+	  document.getElementById("login").addEventListener("click", function() {
+		  var email =  document.getElementById("login_email").value;
+		  var password = document.getElementById("login_password").value;
+
+		  signInWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert(user.email+" Login successfully!!!");
+		    document.getElementById('logout').style.display = 'block';
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    alert(errorMessage);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Logout code start	  
+	  document.getElementById("logout").addEventListener("click", function() {
+		  signOut(auth).then(() => {
+			  // Sign-out successful.
+			  console.log('Sign-out successful.');
+			  alert('Sign-out successful.');
+			  document.getElementById('logout').style.display = 'none';
+			}).catch((error) => {
+			  // An error happened.
+			  console.log('An error happened.');
+			});		  		  
+	  });
+	  //----- End
+
+</script>
+
+</html>
