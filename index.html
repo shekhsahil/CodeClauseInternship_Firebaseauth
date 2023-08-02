@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -8,11 +9,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
-  <link rel="icon" href=
-  "firebase_auth.png" 
-            type="image/x-icon">
-            <link rel="stylesheet" href="STYLE.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" href="firebase_auth.png" type="image/x-icon">
+  <link rel="stylesheet" href="STYLE.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="script.js"></script>
   <title>Firebase Authentication</title>
 </head>
 
@@ -22,7 +22,6 @@
     <div class="navbar-header">
       <h1>Firebase Authentication</h1>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse"
-      
         aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -52,7 +51,7 @@
             <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
           </div>
           <button type="button" id="register" name="register" class="btn btn-success">Register Now</button>
-          <hr>
+          <!-- <hr> -->
           <!-- <button type="button" id="google" name="google" class="btn btn-info">login with Google</button>
           <br>
           <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i class="fa fa-facebook "></i> Login with Facebook</button>
@@ -62,7 +61,7 @@
     </form>
     <div class="col-sm-4">
       <div class="img">
-        <img src="firebase_auth.png" style="width:300px; height:400px;">
+        <!-- <img src="firebase_auth.png" style="width:300px; height:400px;"> -->
 
       </div>
     </div>
@@ -79,22 +78,25 @@
             placeholder="Enter your password">
         </div>
         <button type="button" id="login" name="login" class="btn btn-success">Login</button>
+        <hr>
       </div><!-- end col -->
       <hr>
-      <button type="button" id="google" name="google-login" class="btn btn-danger btn-lg btn-block"><i class="fa fa-google "></i> Login with Google</button>
+      <button type="button" id="google" name="google-login" class="btn btn-danger btn-lg btn-block"><i
+          class="fa fa-google "></i> Login with Google</button>
       <br>
-      <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i class="fa fa-facebook "></i> Login with Facebook</button>
+      <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i
+          class="fa fa-facebook "></i> Login with Facebook</button>
       <br>
-      <button type="button" id="github-login" name="github-login" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-github "></i> Login with Github</button>
+      <button type="button" id="github-login" name="github-login" class="btn btn-secondary btn-lg btn-block"><i
+          class="fa fa-github "></i> Login with Github</button>
   </div><!--  end row -->
   </form>
   </div>
-  <br>
-  
-  <hr>
-  <footer> 
 
-  <center>Developed With ❣️ by S K SAHIL MANDAL</center>
+  <hr>
+  <footer>
+
+    <center>Developed With ❣️ by S K SAHIL MANDAL</center>
 
   </footer>
 </body>
@@ -102,8 +104,8 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,FacebookAuthProvider,signInWithPopup } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
-  import{GoogleAuthProvider, signInWithRedirect,getRedirectResult}from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, FacebookAuthProvider, signInWithPopup  } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+  import { GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -121,104 +123,102 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const auth=getAuth(app);
-  const provider=new GoogleAuthProvider(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider(app);
   const analytics = getAnalytics(app);
-  google.addEventListener('click',(e)=>
-  {
+  google.addEventListener('click', (e) => {
     // signInWithRedirect(auth,provider);
-    
-signInWithPopup(auth, provider)
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    alert(" Logged in succesfully , Welcome "+ user.displayName);
-    document.getElementById('logout').style.display = 'block';
 
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    alert(errorMessage);
-    // ...
-  });
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        alert(" Logged in succesfully , Welcome " + user.displayName);
+        document.getElementById('logout').style.display = 'block';
+
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        alert(errorMessage);
+        // ...
+      });
   }
   );
   // const auth=getAuth();
   console.log(app);
   ////////////////
- 
-	  //----- End
-    ///////////////////
- //----- New Registration code start	  
- document.getElementById("register").addEventListener("click", function() {
-		  var email =  document.getElementById("email").value;
-		  var password = document.getElementById("password").value;
-		  //For new registration
-		  createUserWithEmailAndPassword(auth, email, password)
-		  .then((userCredential) => {
-		    // Signed in 
-		    const user = userCredential.user;
-		    console.log(user);
-		    alert("Registration successfully!!");
-		    // ...
-		  })
-		  .catch((error) => {
-		    const errorCode = error.code;
-		    const errorMessage = error.message;
-		    // ..
-		    console.log(errorMessage);
-		    alert(error);
-		  });		  		  
-	  });
-	  //----- End
 
-	  //----- Login code start	  
-	  document.getElementById("login").addEventListener("click", function() {
-		  var email =  document.getElementById("login_email").value;
-		  var password = document.getElementById("login_password").value;
+  //----- End
+  ///////////////////
+  //----- New Registration code start	  
+  document.getElementById("register").addEventListener("click", function () {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    //For new registration
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        alert("Registration successfully!!");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+        console.log(errorMessage);
+        alert(error);
+      });
+  });
+  //----- End
 
-		  signInWithEmailAndPassword(auth, email, password)
-		  .then((userCredential) => {
-		    // Signed in 
-		    const user = userCredential.user;
-		    console.log(user);
-		    alert(user.email+" Login successfully!!!");
-		    document.getElementById('logout').style.display = 'block';
-		    // ...
-		  })
-		  .catch((error) => {
-		    const errorCode = error.code;
-		    const errorMessage = error.message;
-		    console.log(errorMessage);
-		    alert(errorMessage);
-		  });		  		  
-	  });
-	  //----- End
+  //----- Login code start	  
+  document.getElementById("login").addEventListener("click", function () {
+    var email = document.getElementById("login_email").value;
+    var password = document.getElementById("login_password").value;
 
-	  //----- Logout code start	  
-	  document.getElementById("logout").addEventListener("click", function() {
-		  signOut(auth).then(() => {
-			  // Sign-out successful.
-			  console.log('Sign-out successful.');
-			  alert('Sign-out successful.');
-			  document.getElementById('logout').style.display = 'none';
-			}).catch((error) => {
-			  // An error happened.
-			  console.log('An error happened.');
-			});		  		  
-	  });
-	  //----- End
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        alert(user.email + " Login successfully!!!");
+        document.getElementById('logout').style.display = 'block';
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        alert(errorMessage);
+      });
+  });
+  //----- End
 
+  //----- Logout code start	  
+  document.getElementById("logout").addEventListener("click", function () {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      console.log('Sign-out successful.');
+      alert('Sign-out successful.');
+      document.getElementById('logout').style.display = 'none';
+    }).catch((error) => {
+      // An error happened.
+      console.log('An error happened.');
+    });
+  });
+  //----- End  
 </script>
 
 </html>
