@@ -87,8 +87,9 @@
       <button type="button" id="facebook-login" name="facebook-login" class="btn btn-primary btn-lg btn-block"><i
           class="fa fa-facebook "></i> Login with Facebook</button>
       <br>
-      <button type="button" id="github-login" name="github-login" class="btn btn-secondary btn-lg btn-block"><i
+      <button type="button" id="githubSignin" class="btn btn-secondary btn-lg btn-block" ><i
           class="fa fa-github "></i> Login with Github</button>
+          
   </div><!--  end row -->
   </form>
   </div>
@@ -126,9 +127,10 @@
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider(app);
   const analytics = getAnalytics(app);
-  google.addEventListener('click', (e) => {
-    // signInWithRedirect(auth,provider);
+////////////////////////////////////
 
+////////////////////////////
+  google.addEventListener('click', (e) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -152,7 +154,7 @@
         alert(errorMessage);
         // ...
       });
-  }
+   }
   );
   // const auth=getAuth();
   console.log(app);
@@ -182,7 +184,7 @@
       });
   });
   //----- End
-
+  
   //----- Login code start	  
   document.getElementById("login").addEventListener("click", function () {
     var email = document.getElementById("login_email").value;
@@ -219,6 +221,51 @@
     });
   });
   //----- End  
+  //GITHUB AUTH START
+  var gprovider = new firebase.auth.GithubAuthProvider();
+  ////////////////////////
+  githubSignin.addEventListener('click', (e) => {
+    firebase.auth().signInWithPopup(auth,gprovider)
+      .then(function (result) {
+        var token = result.credential.accessToken;
+        var user = result.user;
+        console.log(token)
+        console.log(user)
+      }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error.code)
+        console.log(error.message)
+      });
+  }
+  );
+  ///////////////////
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var email = user.email;
+      var emailVerified = user.emailVerified;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      var uid = user.uid;
+      var providerData = user.providerData;
+      // ...
+    } else {
+      // User is signed out.
+      // ...
+    }
+  });
+  function githubSignout() {
+    firebase.auth().signOut()
+      .then(function () {
+        console.log('Signout successful!')
+      }, function (error) {
+        console.log('Signout failed')
+      });
+  }
+  //----- End
 </script>
 
 </html>
